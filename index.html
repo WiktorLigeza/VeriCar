@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ochrona Podwozia | Chassis Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    :root {
+      --bg: #0d0d0d;
+      --bg2: #141414;
+      --bg3: #1a1a1a;
+      --accent: #e8a020;
+      --accent2: #f0b840;
+      --text: #f0ede8;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0.25rem;
+      background: var(--bg3);
+      border-radius: 6px;
+      padding: 0.2rem;
+      border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+
+    /* ── HERO ────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      background: var(--accent);
+      color: #0d0d0d;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); background: rgba(232,160,32,0.06); }
+
+    .hero-image-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.55);
+    }
+
+    .hero-image-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--bg) 0%, transparent 40%),
+                  linear-gradient(0deg, var(--bg) 0%, transparent 30%);
+    }
+
+    .hero-stat-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-stat {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+      background: rgba(13,13,13,0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-stat:last-child { border-right: none; }
+
+    .hero-stat-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.2rem;
+    }
+
+    /* ── SECTION BASE ────────────────────────────── */
+    section { padding: 7rem 5rem; }
+
+    .section-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+    }
+
+    /* ── SERVICES ────────────────────────────────── */
+    #services {
+      background: var(--bg2);
+      padding: 7rem 5rem;
+    }
+
+    .services-header {
+      max-width: 560px;
+      margin-bottom: 4rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border: 2px solid var(--bg3);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg3);
+      aspect-ratio: 4/3;
+      cursor: default;
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.35);
+      transition: filter 0.6s ease, transform 0.6s ease;
+    }
+
+    .service-card:hover img {
+      filter: brightness(0.22);
+      transform: scale(1.04);
+    }
+
+    .service-card-body {
+      position: absolute;
+      inset: 0;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: rgba(232,160,32,0.15);
+      border: 1px solid rgba(232,160,32,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .service-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .service-text {
+      font-size: 0.85rem;
+      color: rgba(240,237,232,0.7);
+      line-height: 1.65;
+      max-width: 360px;
+    }
+
+    .service-line {
+      height: 2px;
+      width: 36px;
+      background: var(--accent);
+      margin-bottom: 1rem;
+      transition: width 0.4s ease;
+    }
+
+    .service-card:hover .service-line { width: 60px; }
+
+    /* ── GALLERY ─────────────────────────────────── */
+    #gallery { background: var(--bg); }
+
+    .gallery-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 12px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .gallery-item.tall { grid-row: span 2; }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      min-height: 220px;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.8);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(13,13,13,0.6) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* ── CONTACT ─────────────────────────────────── */
+    #contact {
+      background: var(--bg2);
+      padding: 7rem 5rem;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .contact-info-block {
+      margin-top: 3rem;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-info-item:last-child { border-bottom: none; }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(232,160,32,0.1);
+      border: 1px solid rgba(232,160,32,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    .contact-info-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-info-val {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .contact-info-val a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-info-val a:hover { color: var(--accent); }
+
+    /* ── CONSULTATION CARD ───────────────────────── */
+    .consult-card {
+      background: linear-gradient(135deg, rgba(232,160,32,0.12), rgba(232,160,32,0.04));
+      border: 1px solid rgba(232,160,32,0.25);
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .consult-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%);
+    }
+
+    .consult-card-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .consult-card h3 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .consult-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .phone-number {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.75rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .phone-number:hover { color: var(--accent2); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      padding: 2rem 5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo { font-size: 0.85rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+    .footer-copy { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── SCROLL REVEAL ───────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    [data-reveal].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    [data-reveal-delay="1"] { transition-delay: 0.1s; }
+    [data-reveal-delay="2"] { transition-delay: 0.2s; }
+    [data-reveal-delay="3"] { transition-delay: 0.3s; }
+    [data-reveal-delay="4"] { transition-delay: 0.4s; }
+
+    /* ── LANGUAGE SWITCHING ──────────────────────── */
+    [data-lang="en"] { display: none; }
+
+    body.en [data-lang="pl"] { display: none; }
+    body.en [data-lang="en"] { display: revert; }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image-panel { display: none; }
+      .hero-content { padding: 8rem 3rem 6rem; }
+      .hero-stat-bar { position: relative; }
+      section { padding: 5rem 3rem; }
+      #services, #contact { padding: 5rem 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item.tall { grid-row: span 1; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">VeriCar<span style="color:var(--text);font-weight:300"> | Podwozie</span></div>
+  <ul class="nav-links">
+    <li><a href="#services" data-lang="pl">Usługi</a><a href="#services" data-lang="en">Services</a></li>
+    <li><a href="#gallery" data-lang="pl">Galeria</a><a href="#gallery" data-lang="en">Gallery</a></li>
+    <li><a href="#contact" data-lang="pl">Kontakt</a><a href="#contact" data-lang="en">Contact</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('pl')">PL</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-reveal>
+      <span data-lang="pl">Profesjonalna ochrona pojazdu</span>
+      <span data-lang="en">Professional vehicle protection</span>
+    </div>
+
+    <h1 data-reveal data-reveal-delay="1">
+      <span data-lang="pl">Podwozie<br/>bez <span>kompromisów</span></span>
+      <span data-lang="en">Chassis Care<br/>without <span>compromise</span></span>
+    </h1>
+
+    <p class="hero-sub" data-reveal data-reveal-delay="2">
+      <span data-lang="pl">Kompleksowa ochrona antykorozyjna, piaskowanie, mycie podwozia oraz precyzyjne spawanie. Twój samochód w najlepszych rękach.</span>
+      <span data-lang="en">Complete anti-corrosion protection, sandblasting, chassis washing and precision welding. Your vehicle in the best hands.</span>
+    </p>
+
+    <div class="hero-cta" data-reveal data-reveal-delay="3">
+      <a href="#contact" class="btn-primary">
+        <span data-lang="pl">Umów konsultację</span>
+        <span data-lang="en">Book a consultation</span>
+        →
+      </a>
+      <a href="#services" class="btn-ghost">
+        <span data-lang="pl">Nasze usługi</span>
+        <span data-lang="en">Our services</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-image-panel">
+    <img src="images/undercar.webp" alt="Podwozie samochodu" />
+  </div>
+
+  <div class="hero-stat-bar">
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label" data-lang="pl">Profesjonalne podejście</div>
+      <div class="hero-stat-label" data-lang="en">Professional approach</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2×</div>
+      <div class="hero-stat-label" data-lang="pl">Dłuższa żywotność pojazdu</div>
+      <div class="hero-stat-label" data-lang="en">Longer vehicle lifespan</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">∞</div>
+      <div class="hero-stat-label" data-lang="pl">Gwarancja jakości</div>
+      <div class="hero-stat-label" data-lang="en">Quality guarantee</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ──────────────────────────────────── -->
+<section id="services">
+  <div class="services-header">
+    <p class="section-tag" data-reveal data-lang="pl">Usługi</p>
+    <p class="section-tag" data-reveal data-lang="en">Services</p>
+    <h2 class="section-title" data-reveal data-reveal-delay="1">
+      <span data-lang="pl">Co oferujemy</span>
+      <span data-lang="en">What we offer</span>
+    </h2>
+    <p class="section-desc" data-reveal data-reveal-delay="2">
+      <span data-lang="pl">Każde zlecenie traktujemy indywidualnie — precyzja i trwałość to fundamenty naszej pracy.</span>
+      <span data-lang="en">Every job is treated individually — precision and durability are the foundations of our work.</span>
+    </p>
+  </div>
+
+  <div class="services-grid" data-reveal data-reveal-delay="2">
+    <!-- Service 1 -->
+    <div class="service-card">
+      <img src="images/piaskowanie.jpg" alt="Piaskowanie podwozia" />
+      <div class="service-card-body">
+        <div class="service-num" data-lang="pl">01 — Konserwacja &amp; Piaskowanie</div>
+        <div class="service-num" data-lang="en">01 — Maintenance &amp; Sandblasting</div>
+        <div class="service-line"></div>
+        <h3 class="service-title">
+          <span data-lang="pl">Piaskowanie &amp; Mycie podwozia</span>
+          <span data-lang="en">Sandblasting &amp; Chassis washing</span>
+        </h3>
+        <p class="service-text">
+          <span data-lang="pl">Zapewniamy kompleksową ochronę przed korozją i czynnikami zewnętrznymi. Dokładne piaskowanie oraz profesjonalne mycie przygotowują powierzchnię do prac zabezpieczających.</span>
+          <span data-lang="en">We provide comprehensive protection against corrosion and external factors. Thorough sandblasting and professional washing prepare the surface for protective treatments.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Service 2 -->
+    <div class="service-card">
+      <img src="images/welding.jpg" alt="Spawanie" />
+      <div class="service-card-body">
+        <div class="service-num" data-lang="pl">02 — Spawanie &amp; Regeneracja</div>
+        <div class="service-num" data-lang="en">02 — Welding &amp; Restoration</div>
+        <div class="service-line"></div>
+        <h3 class="service-title">
+          <span data-lang="pl">Spawanie &amp; Wypełnianie ubytków</span>
+          <span data-lang="en">Welding &amp; Filling defects</span>
+        </h3>
+        <p class="service-text">
+          <span data-lang="pl">Specjalizujemy się w precyzyjnym spawaniu oraz trwałym uzupełnianiu ubytków w elementach konstrukcyjnych. Przywracamy pełną wytrzymałość i estetykę uszkodzonych części.</span>
+          <span data-lang="en">We specialize in precise welding and durable filling of structural defects. We restore full strength and aesthetics of damaged components.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ───────────────────────────────────── -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <p class="section-tag" data-reveal data-lang="pl">Galeria</p>
+      <p class="section-tag" data-reveal data-lang="en">Gallery</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="1">
+        <span data-lang="pl">Nasza praca</span>
+        <span data-lang="en">Our work</span>
+      </h2>
+    </div>
+    <p class="section-desc" data-reveal data-reveal-delay="2" style="max-width:300px; text-align:right;">
+      <span data-lang="pl">Każde zdjęcie to historia naprawionego, zabezpieczonego i odświeżonego pojazdu.</span>
+      <span data-lang="en">Every photo is a story of a repaired, protected, and refreshed vehicle.</span>
+    </p>
+  </div>
+
+  <div class="gallery-grid" data-reveal data-reveal-delay="2">
+    <div class="gallery-item tall">
+      <img src="images/undercar.webp" alt="Podwozie" />
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/piaskowanie.jpg" alt="Piaskowanie" />
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/welding.jpg" alt="Spawanie" />
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item" style="grid-column: span 2;">
+      <img src="images/grinder_cutting.jpg" alt="Szlifowanie" style="max-height:280px;" />
+      <div class="gallery-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ───────────────────────────────────── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-tag" data-reveal data-lang="pl">Kontakt</p>
+      <p class="section-tag" data-reveal data-lang="en">Contact</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="1">
+        <span data-lang="pl">Porozmawiajmy<br/>o Twoim pojeździe</span>
+        <span data-lang="en">Let's talk<br/>about your vehicle</span>
+      </h2>
+      <p class="section-desc" data-reveal data-reveal-delay="2">
+        <span data-lang="pl">Skontaktuj się z nami i umów na bezpłatną konsultację. Ocenimy stan pojazdu i zaproponujemy najlepsze rozwiązanie.</span>
+        <span data-lang="en">Contact us and book a free consultation. We'll assess your vehicle's condition and propose the best solution.</span>
+      </p>
+
+      <div class="contact-owner" data-reveal data-reveal-delay="2">
+        <div class="contact-owner-role" data-lang="pl">Właściciel</div>
+        <div class="contact-owner-role" data-lang="en">Owner</div>
+        <div class="contact-owner-name">Janusz Ligęza</div>
+      </div>
+
+      <div class="contact-info-block" data-reveal data-reveal-delay="3">
+        <div class="contact-info-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-info-label" data-lang="pl">Telefon</div>
+            <div class="contact-info-label" data-lang="en">Phone</div>
+            <div class="contact-info-val"><a href="tel:+48531079876">+48 531 079 876</a></div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-info-label" data-lang="pl">Adres</div>
+            <div class="contact-info-label" data-lang="en">Address</div>
+            <div class="contact-info-val">
+              <a href="https://maps.google.com/?q=R%C4%85bkowa+64%2C+T%C4%99goborze+33-312" target="_blank" rel="noopener">Rąbkowa 64, Tęgoborze 33-312</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <div class="contact-info-label" data-lang="pl">Godziny pracy</div>
+            <div class="contact-info-label" data-lang="en">Working hours</div>
+            <div class="contact-info-val" data-lang="pl">Pon – Sob, 8:00 – 18:00</div>
+            <div class="contact-info-val" data-lang="en">Mon – Sat, 8:00 – 18:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="consult-card" data-reveal data-reveal-delay="2">
+      <div class="consult-card-eyebrow" data-lang="pl">Darmowa konsultacja</div>
+      <div class="consult-card-eyebrow" data-lang="en">Free consultation</div>
+      <h3>
+        <span data-lang="pl">Zadzwoń &amp; umów się już dziś</span>
+        <span data-lang="en">Call &amp; book your slot today</span>
+      </h3>
+      <p>
+        <span data-lang="pl">Bezpłatna ocena stanu podwozia. Jesteśmy dostępni sześć dni w tygodniu — zadzwoń i porozmawiajmy o Twoim samochodzie.</span>
+        <span data-lang="en">Free chassis condition assessment. We're available six days a week — call us and let's talk about your car.</span>
+      </p>
+      <a href="tel:+48531079876" class="phone-number">
+        <span>📞</span> +48 531 079 876
+      </a>
+      <a href="tel:+48531079876" class="btn-primary" style="display:inline-flex;">
+        <span data-lang="pl">Zadzwoń teraz</span>
+        <span data-lang="en">Call now</span>
+        →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAP ─────────────────────────────────────────── -->
+<section id="map">
+  <div class="map-wrap">
+    <iframe
+      src="https://www.google.com/maps?q=R%C4%85bkowa+64%2C+T%C4%99goborze+33-312%2C+Poland&output=embed"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Rąbkowa 64, Tęgoborze"
+    ></iframe>
+    <div class="map-badge">
+      <div class="map-badge-name"><span class="map-badge-dot"></span>Janusz Ligęza</div>
+      <div class="map-badge-addr">Rąbkowa 64, Tęgoborze 33-312</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">VeriCar | Podwozie</div>
+  <div class="footer-copy" data-lang="pl">© 2026 Wszelkie prawa zastrzeżone</div>
+  <div class="footer-copy" data-lang="en">© 2026 All rights reserved</div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
