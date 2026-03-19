@@ -12,6 +12,7 @@ const observer = new IntersectionObserver(entries => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
       observer.unobserve(e.target);
+      
     }
   });
 }, { threshold: 0.12 });
